@@ -65,12 +65,9 @@ class OrderSearch extends Order
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'orders.id' => $this->id,
             'status' => $this->status,
             'partner_id' => $this->partner_id,
-            'delivery_dt' => $this->delivery_dt,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'client_email', $this->client_email]);
