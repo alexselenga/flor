@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'partnerName',
                 'value' => 'partner.name',
-                'filter' => true,
             ],
             [
                 'label' => 'Стоимость',
