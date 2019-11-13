@@ -56,8 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'status',
-                'value' => function ($data) {
-                    return Order::STATUSES[$data->status];
+                'value' => function (Order $order) {
+                    return Order::STATUSES[$order->status];
                 },
                 'filter' => Order::STATUSES,
             ],
