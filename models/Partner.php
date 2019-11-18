@@ -61,6 +61,6 @@ class Partner extends \yii\db\ActiveRecord
     }
 
     public static function getList() {
-        return Partner::find()->select(['name'])->indexBy('id')->column();
+        return Partner::find()->select('name')->indexBy('id')->column();
     }
 }

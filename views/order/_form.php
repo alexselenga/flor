@@ -12,9 +12,9 @@ use yii\widgets\DetailView;
 
 echo '<div class="order-form">';
     $form = ActiveForm::begin();
-        echo $form->field($model, 'partner_id')->dropDownList(Partner::getList());
+        echo $form->field($model, 'partner_id')->dropDownList(Partner::getList(), ['prompt' => 'Выберите партнера...']);
         echo $form->field($model, 'client_email')->textInput(['maxlength' => true]);
-        echo $form->field($model, 'status')->dropDownList(Order::STATUSES);
+        echo $form->field($model, 'status')->dropDownList(Order::STATUSES, ['prompt' => 'Выберите статус...']);
 
         echo DetailView::widget([
             'model' => $model,
