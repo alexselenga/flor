@@ -39,14 +39,12 @@ class OrderSearch extends Order
      */
     public function search($params)
     {
-        $query = Order::find()->joinWith(['partner', 'orderProducts', 'orderProducts.product']);
-
-        // add conditions that should always apply here
+        $query = Order::find()->joinWith('partner');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 150,
+                'pageSize' => 40,
             ],
         ]);
 
@@ -63,7 +61,6 @@ class OrderSearch extends Order
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'orders.id' => $this->id,
             'status' => $this->status,
