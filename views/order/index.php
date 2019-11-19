@@ -43,14 +43,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Стоимость',
-                'value' => function (Order $order) {
-                    return $order->getOrderCost();
+                'value' => function (Order $order) use ($searchModel) {
+                    return Order::getOrderCost($searchModel->ordersCache[$order->id]['orderProducts']);
                 },
             ],
             [
                 'label' => 'Состав заказа',
-                'value' => function (Order $order) {
-                    return $order->getOrderContent();
+                'value' => function (Order $order) use ($searchModel) {
+                    return Order::getOrderContent($searchModel->ordersCache[$order->id]['orderProducts']);
                 },
                 'format' => 'raw',
             ],

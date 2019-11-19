@@ -11,6 +11,8 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$orderProducts = $model->orderProducts;
 ?>
 <div class="order-view">
 
@@ -44,12 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Состав заказа',
-                'value' => $model->getOrderContent('<br>'),
+                'value' => Order::getOrderContent($orderProducts, '<br>'),
                 'format' => 'raw',
             ],
             [
                 'label' => 'Стоимость заказа',
-                'value' => $model->getOrderCost(),
+                'value' => Order::getOrderCost($orderProducts),
             ],
         ],
     ])

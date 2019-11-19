@@ -90,23 +90,31 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
     }
 
-    public function getOrderContent($delimiter = ', ') {
+    public static function getOrderContent($orderProducts, $delimiter = ', ') {
         $orderProductList = [];
 
-        foreach ($this->orderProducts as $orderProduct) {
-            $productName = HTML::encode($orderProduct->product->name);
-            $quantity = $orderProduct->quantity;
+        if (!$orderProducts) {
+            return "-";
+        }
+
+        foreach ($orderProducts as $orderProduct) {
+            $productName = HTML::encode($orderProduct['product']['name'] ?: 'Не указан');
+            $quantity = $orderProduct['quantity'];
             $orderProductList[] = "$productName ($quantity шт.)";
         }
 
         return implode($delimiter, $orderProductList);
     }
 
-    public function getOrderCost() {
+    public static function getOrderCost($orderProducts) {
         $cost = 0;
 
-        foreach ($this->orderProducts as $orderProduct) {
-            $cost += $orderProduct->price * $orderProduct->quantity;
+        if (!$orderProducts) {
+            return "-";
+        }
+
+        foreach ($orderProducts as $orderProduct) {
+            $cost += $orderProduct['price'] * $orderProduct['quantity'];
         }
 
         return "$cost руб.";

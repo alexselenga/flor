@@ -4,12 +4,16 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 
 /**
  * OrderSearch represents the model behind the search form of `app\models\Order`.
  */
 class OrderSearch extends Order
 {
+
+    public $ordersCache = [];
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +48,7 @@ class OrderSearch extends Order
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 100,
+                'pageSize' => 40,
             ],
         ]);
 
@@ -63,12 +67,27 @@ class OrderSearch extends Order
 
         $query->andFilterWhere([
             'orders.id' => $this->id,
-            'status' => $this->status,
-            'partner_id' => $this->partner_id,
+            'orders.status' => $this->status,
+            'orders.partner_id' => $this->partner_id,
+            'orders.created_at' => $this->created_at,
+            'orders.updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'client_email', $this->client_email]);
+        $query->andFilterWhere(['like', 'orders.client_email', $this->client_email]);
         $query->andFilterWhere(['like', 'partners.name', $this->partnerName]);
+
+        $this->makeOrdersCache($dataProvider->models);
         return $dataProvider;
+    }
+
+    protected function makeOrdersCache($orderModels) {
+        $orderIds = ArrayHelper::getColumn($orderModels, 'id');
+
+        $this->ordersCache = Order::find()
+            ->joinWith('orderProducts.product')
+            ->where(['in', 'orders.id', $orderIds])
+            ->indexBy('id')
+            ->asArray()
+            ->all();
     }
 }

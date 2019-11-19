@@ -10,6 +10,8 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Order */
 /* @var $form yii\widgets\ActiveForm */
 
+$orderProducts = $model->orderProducts;
+
 echo '<div class="order-form">';
     $form = ActiveForm::begin();
         echo $form->field($model, 'partner_id')->dropDownList(Partner::getList(), ['prompt' => 'Выберите партнера...']);
@@ -21,12 +23,12 @@ echo '<div class="order-form">';
             'attributes' => [
                 [
                     'label' => 'Состав заказа',
-                    'value' => $model->getOrderContent('<br>'),
+                    'value' => Order::getOrderContent($orderProducts, '<br>'),
                     'format' => 'raw',
                 ],
                 [
                     'label' => 'Стоимость заказа',
-                    'value' => $model->getOrderCost(),
+                    'value' => Order::getOrderCost($orderProducts),
                 ],
             ],
         ]);

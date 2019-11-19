@@ -16,9 +16,13 @@ use Yii;
  *
  * @property OrderProduct[] $orderProducts
  * @property Vendor $vendor
+ *
+ * @property string $vendorName
  */
 class Product extends \yii\db\ActiveRecord
 {
+    public $vendorName;
+
     /**
      * {@inheritdoc}
      */
@@ -48,11 +52,12 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'price' => 'Price',
-            'vendor_id' => 'Vendor ID',
+            'name' => 'Наименование',
+            'price' => 'Цена',
+            'vendor_id' => 'Поставщик',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'vendorName' => 'Поставщик',
         ];
     }
 

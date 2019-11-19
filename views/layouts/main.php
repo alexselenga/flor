@@ -39,6 +39,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Погода в Брянске', 'url' => ['/site/index']],
+            ['label' => 'Список продуктов', 'url' => ['/product/index']],
             ['label' => 'Список заказов', 'url' => ['/order/index']],
 //            ['label' => 'Contact', 'url' => ['/site/contact']],
         ],
