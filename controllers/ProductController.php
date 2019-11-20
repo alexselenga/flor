@@ -40,11 +40,7 @@ class ProductController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
 
-        if (Yii::$app->request->isGet) {
-            return $model->attributes;
-        } else {
-            return $model->load(Yii::$app->request->post()) && $model->save();
-        }
+        return Yii::$app->request->isGet ? $model->attributes : $model->load(Yii::$app->request->post()) && $model->save();
     }
 
     /**
