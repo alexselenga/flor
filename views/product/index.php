@@ -1,8 +1,11 @@
 <?php
 
+use app\models\Product;
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -10,38 +13,52 @@ use yii\widgets\Pjax;
 $this->title = 'Продукты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-index">
 
+<div class="product-index">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?
-//            echo Html::a('Create Product', ['create'], ['class' => 'btn btn-success'])
-        ?>
-    </p>
-
-    <?php Pjax::begin(); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'id' => 'productList',
-        'layout' => '{pager}{summary}{items}{pager}',
-        'columns' => [
-            'id',
-            'name',
-            [
-                'attribute' => 'vendorName',
-                'value' => 'vendor.name',
+    <?php
+    Pjax::begin(['id' => 'pjaxProduct']);
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'id' => 'productList',
+            'layout' => '{pager}{summary}{items}{pager}',
+            'columns' => [
+                'id',
+                'name',
+                [
+                    'attribute' => 'vendorName',
+                    'value' => 'vendor.name',
+                ],
+                [
+                    'attribute' => 'price',
+                    'value' => function (Product $product) {
+                        return Html::a($product->price, '#updateModal', [
+                            'title' => 'Редактировать',
+                            'data-toggle' => 'modal',
+                            'data-url' => Url::to(['product/update', 'id' => $product->id]),
+                        ]);
+                    },
+                    'format' => 'raw',
+                ],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'buttons' => [
+                        'update' => function ($url, Product $product) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', '#updateModal', [
+                                'title' => 'Редактировать',
+                                'data-toggle' => 'modal',
+                                'data-url' => Url::to(['product/update', 'id' => $product->id]),
+                            ]);
+                        },
+                    ],
+                    'template' => '{update}'
+                ],
             ],
-            'price',
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {link}',
-            ],
-        ],
-    ]); ?>
-
-    <?php Pjax::end(); ?>
-
+        ]);
+    Pjax::end();
+    ?>
 </div>
+
+<?= $this->render('_update'); ?>

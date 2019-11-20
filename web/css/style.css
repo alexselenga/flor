@@ -32,3 +32,7 @@
 #productList td:nth-child(5) {
     width: 5%;
 }
+
+#updateModal .modal-dialog {
+    width: 360px;
+}
