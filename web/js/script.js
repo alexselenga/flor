@@ -1,42 +1,41 @@
-$('#updateModal').on('show.bs.modal', function (event) {
-    let _modal = $(this);
-    let _wrapper = _modal.find('.modal-body');
+$('.modal').on('show.bs.modal', function (event) {
+    let _form = $(this).find('form');
     let url = $(event.relatedTarget).data('url');
-    _wrapper.find('form').attr('action', url);
+    _form.attr('action', url);
 
     $.ajax({
         url: url,
         type: 'GET',
-        success: function(data) {
-            _wrapper.find('form #product-name').val(data.name);
-            _wrapper.find('form #product-price').val(data.price);
+        success: function(fields) {
+            for (let fieldName in fields) {
+                _form.find('#product-' + fieldName).val(fields[fieldName]);
+            }
 
-            _wrapper.find('form *').removeClass('has-error');
-            _wrapper.find('form *').removeClass('has-success');
-            _wrapper.find('form .help-block').html('');
+            _form.find('*').removeClass('has-error has-success');
+            _form.find('.help-block').html('');
         }
     });
 });
 
-$('#closeUpdateModal').on('click', function () {
+$('#closeModal').on('click', function () {
     let _modal = $(this).closest('.modal');
-    let _wrapper = _modal.find('.modal-body');
-
-    let data = {
-        'Product': {
-            price: _wrapper.find('form #product-price').val()
-        }
-    };
+    let _form = _modal.find('form');
 
     $.ajax({
-        data: data,
+        url: _form.attr('action'),
         type: 'POST',
-        url: _wrapper.find('form').attr('action'),
-        success: function(data) {
-            if (data) {
-                $('#updateModal').modal('hide');
+        data: _form.serialize(),
+        success: function(saved) {
+            if (saved) {
+                _modal.modal('hide');
                 $.pjax.reload({container: '#pjaxProduct'});
             }
         }
     });
+});
+
+$('.modal').keydown(function (e) {
+    if (e.which == 13) {
+        $(this).find('#closeModal').click();
+    }
 });

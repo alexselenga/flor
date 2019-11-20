@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'price',
                     'value' => function (Product $product) {
-                        return Html::a($product->price, '#updateModal', [
+                        return Html::a($product->price, '.product-form .modal', [
                             'title' => 'Редактировать',
                             'data-toggle' => 'modal',
                             'data-url' => Url::to(['product/update', 'id' => $product->id]),
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'yii\grid\ActionColumn',
                     'buttons' => [
                         'update' => function ($url, Product $product) {
-                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', '#updateModal', [
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', '.product-form .modal', [
                                 'title' => 'Редактировать',
                                 'data-toggle' => 'modal',
                                 'data-url' => Url::to(['product/update', 'id' => $product->id]),
@@ -61,4 +61,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 </div>
 
-<?= $this->render('_update'); ?>
+<?= $this->render('_form'); ?>

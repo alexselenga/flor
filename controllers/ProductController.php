@@ -7,6 +7,7 @@ use app\models\Product;
 use app\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -29,13 +30,14 @@ class ProductController extends Controller
     }
 
     /**
+     * Updates an existing Product model via AJAX.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = $this->findModel($id);
 
         if (Yii::$app->request->isGet) {
