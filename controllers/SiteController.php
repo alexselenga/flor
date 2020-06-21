@@ -13,6 +13,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        header("Access-Control-Allow-Origin: *");
         return $this->render('index');
     }
 }
